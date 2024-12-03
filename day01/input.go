@@ -5,8 +5,9 @@ import (
 	"bytes"
 	_ "embed"
 	"sort"
-	"strconv"
 	"strings"
+
+	"github.com/ryankennedy/advent-of-code-2024/parse"
 )
 
 //go:embed input.txt
@@ -18,7 +19,7 @@ func parsedList() ([]int, []int, error) {
 	left := make([]int, 0, 1)
 	right := make([]int, 0, 1)
 	for scanner.Scan() {
-		ids, err := parseInts(strings.SplitN(scanner.Text(), "   ", 2))
+		ids, err := parse.ParseInts(strings.SplitN(scanner.Text(), "   ", 2))
 		if err != nil {
 			return []int{}, []int{}, err
 		}
@@ -27,18 +28,6 @@ func parsedList() ([]int, []int, error) {
 	}
 
 	return left, right, nil
-}
-
-func parseInts(strs []string) ([]int, error) {
-	ints := make([]int, 0, len(strs))
-	for _, str := range strs {
-		parsed, err := strconv.Atoi(str)
-		if err != nil {
-			return []int{}, err
-		}
-		ints = append(ints, parsed)
-	}
-	return ints, nil
 }
 
 func sortedList() ([]int, []int, error) {
